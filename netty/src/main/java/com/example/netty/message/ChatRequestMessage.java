@@ -18,7 +18,7 @@ public class ChatRequestMessage extends Message{
     public ChatRequestMessage() {
     }
 
-    public ChatRequestMessage(String content, String to, String from) {
+    public ChatRequestMessage(String from, String to, String content) {
         this.content = content;
         this.to = to;
         this.from = from;

@@ -1,6 +1,7 @@
 package com.example.netty.netty.protocol;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -24,31 +25,40 @@ import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_LENGTH;
  */
 @Slf4j
 public class HttpProtocolServer {
-    public static void main(String[] args) throws InterruptedException {
-        new ServerBootstrap()
-                .group(new NioEventLoopGroup(), new NioEventLoopGroup())
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel sc) throws Exception {
-                        sc.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
-                        sc.pipeline().addLast(new HttpServerCodec());
-                        sc.pipeline().addLast(new SimpleChannelInboundHandler<HttpRequest>() {
-                            @Override
-                            protected void channelRead0(ChannelHandlerContext ctx, HttpRequest request) throws Exception {
-                                log.debug("{}", request.uri());
-                                DefaultFullHttpResponse response = new DefaultFullHttpResponse(request.protocolVersion(), HttpResponseStatus.OK);
-                                byte[] bytes = "<h1>Hello World</h1>".getBytes();
+    public static void main(String[] args){
+        NioEventLoopGroup worker = new NioEventLoopGroup();
+        NioEventLoopGroup boss = new NioEventLoopGroup();
+        try {
+            ServerBootstrap serverBootstrap = new ServerBootstrap()
+                    .group(boss, worker)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel sc) throws Exception {
+                            sc.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
+                            sc.pipeline().addLast(new HttpServerCodec());
+                            sc.pipeline().addLast(new SimpleChannelInboundHandler<HttpRequest>() {
+                                @Override
+                                protected void channelRead0(ChannelHandlerContext ctx, HttpRequest request) throws Exception {
+                                    log.debug("{}", request.uri());
+                                    DefaultFullHttpResponse response = new DefaultFullHttpResponse(request.protocolVersion(), HttpResponseStatus.OK);
+                                    byte[] bytes = "<h1>Hello World</h1>".getBytes();
 
-                                response.headers().setInt(CONTENT_LENGTH, bytes.length);
-                                response.content().writeBytes(bytes);
+                                    response.headers().setInt(CONTENT_LENGTH, bytes.length);
+                                    response.content().writeBytes(bytes);
 
-                                ctx.writeAndFlush(response);
-                            }
-                        });
-                    }
-                })
-                .bind(8080).sync()
-                .channel().closeFuture().sync();
+                                    ctx.writeAndFlush(response);
+                                }
+                            });
+                        }
+                    });
+            ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
+            channelFuture.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            boss.shutdownGracefully();
+            worker.shutdownGracefully();
+        }
     }
 }

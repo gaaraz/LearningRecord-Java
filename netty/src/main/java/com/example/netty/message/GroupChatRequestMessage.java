@@ -15,7 +15,7 @@ public class GroupChatRequestMessage extends Message{
     private String groupName;
     private String from;
 
-    public GroupChatRequestMessage(String content, String groupName, String from) {
+    public GroupChatRequestMessage(String groupName, String from, String content) {
         this.content = content;
         this.groupName = groupName;
         this.from = from;

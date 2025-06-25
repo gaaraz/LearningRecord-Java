@@ -31,6 +31,7 @@ public class PackServer3 {
             serverBootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel sc) throws Exception {
+                    // \n分隔符解码器
                     sc.pipeline().addLast(new LineBasedFrameDecoder(1024));
                     sc.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                     sc.pipeline().addLast(new ChannelInboundHandlerAdapter(){

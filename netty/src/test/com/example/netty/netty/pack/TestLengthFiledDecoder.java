@@ -10,7 +10,7 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @description:
+ * @description: 预设长度
  * @author: zzy
  * @createDate: 2025/6/17
  */
