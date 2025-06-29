@@ -1,6 +1,8 @@
 package com.example.netty.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -10,6 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@NoArgsConstructor
 public class GroupJoinResponseMessage extends AbstractResponseMessage{
 
     public GroupJoinResponseMessage(boolean success, String reason) {

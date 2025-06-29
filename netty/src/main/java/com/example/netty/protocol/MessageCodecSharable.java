@@ -35,7 +35,7 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
         // 1字节的版本号
         out.writeByte(1);
         // 1字节的序列化方式 0-jdk; 1-json
-        out.writeByte(0);
+        out.writeByte(1);
         // 1字节的指令类型
         out.writeByte(msg.getMessageType());
         // 4字节
@@ -43,10 +43,7 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
         // 1字节,无意义,填充
         out.writeByte(0xff);
         // 获取内容的字节数组
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(msg);
-        byte[] bytes = bos.toByteArray();
+        byte[] bytes = Serializer.Algorithm.Json.serialize(msg);
         // 长度
         out.writeInt(bytes.length);
         // 写入内容
@@ -56,7 +53,7 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
 
 
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
         int magicNum = in.readInt();
         byte version = in.readByte();
         byte serializerType = in.readByte();
@@ -66,8 +63,10 @@ public class MessageCodecSharable extends MessageToMessageCodec<ByteBuf, Message
         int length = in.readInt();
         byte[] bytes = new byte[length];
         in.readBytes(bytes, 0, length);
-        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
-        Message message = (Message) ois.readObject();
+
+        Serializer.Algorithm algorithm = Serializer.Algorithm.values()[serializerType];
+        Class<?> messageClass = Message.getMessageClass(messageType);
+        Object message = algorithm.deserialize(messageClass, bytes);
         log.debug("{},{},{},{},{},{}", magicNum, version, serializerType, messageType, sequenceId, length);
         log.debug("{}", message);
         out.add(message);

@@ -1,9 +1,9 @@
 package com.example.netty.message;
 
 import lombok.Data;
-import org.apache.commons.collections4.map.HashedMap;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -52,7 +52,7 @@ public abstract class Message implements Serializable {
     // 响应类型
     public static final int RPC_MESSAGE_TYPE_RESPONSE = 102;
 
-    private static final Map<Integer, Class<? extends Message>> messageClasses = new HashedMap<>();
+    private static final Map<Integer, Class<? extends Message>> messageClasses = new HashMap<>();
 
     static {
         messageClasses.put(LoginRequestMessage, LoginRequestMessage.class);
@@ -69,6 +69,8 @@ public abstract class Message implements Serializable {
         messageClasses.put(GroupChatResponseMessage, GroupChatResponseMessage.class);
         messageClasses.put(GroupMembersRequestMessage, GroupMembersRequestMessage.class);
         messageClasses.put(GroupMembersResponseMessage, GroupMembersResponseMessage.class);
+        messageClasses.put(PingMessage, PingMessage.class);
+        messageClasses.put(PongMessage, PongMessage.class);
         messageClasses.put(RPC_MESSAGE_TYPE_REQUEST, RpcRequestMessage.class);
         messageClasses.put(RPC_MESSAGE_TYPE_RESPONSE, RpcResponseMessage.class);
     }

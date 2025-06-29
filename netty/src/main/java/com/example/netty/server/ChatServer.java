@@ -52,18 +52,18 @@ public class ChatServer {
                             sc.pipeline().addLast(MESSAGE_CODEC);                   // 编解码器类
                             // 用来判断是不是读空闲时间过长或写空闲时间过长
                             // 5S内如果没有收到channel的数据,会触发一个IdleState#READER_IDLE事件
-                            sc.pipeline().addLast(new IdleStateHandler(5, 0, 0));
-                            sc.pipeline().addLast(new ChannelDuplexHandler(){
-                                @Override
-                                public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-                                    IdleStateEvent event = (IdleStateEvent) evt;
-                                    // 触发读空闲事件
-                                    if (event.state() == IdleState.READER_IDLE) {
-                                        log.debug("长时间未收到客户端的消息,关闭连接");
-                                        ctx.channel().close();
-                                    }
-                                }
-                            });
+//                            sc.pipeline().addLast(new IdleStateHandler(5, 0, 0));
+//                            sc.pipeline().addLast(new ChannelDuplexHandler(){
+//                                @Override
+//                                public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+//                                    IdleStateEvent event = (IdleStateEvent) evt;
+//                                    // 触发读空闲事件
+//                                    if (event.state() == IdleState.READER_IDLE) {
+//                                        log.debug("长时间未收到客户端的消息,关闭连接");
+//                                        ctx.channel().close();
+//                                    }
+//                                }
+//                            });
 
                             sc.pipeline().addLast(LOGIN_HANDLER);
                             sc.pipeline().addLast(CHAT_HANDLER);
@@ -75,7 +75,7 @@ public class ChatServer {
                             sc.pipeline().addLast(QUIT_HANDLER);
                         }
                     });
-            Channel channel = serverBootstrap.bind(8080).sync().channel();
+            Channel channel = serverBootstrap.bind(8888).sync().channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

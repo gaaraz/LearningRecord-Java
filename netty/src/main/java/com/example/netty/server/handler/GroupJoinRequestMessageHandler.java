@@ -1,7 +1,7 @@
 package com.example.netty.server.handler;
 
-import com.example.netty.message.GroupChatResponseMessage;
 import com.example.netty.message.GroupJoinRequestMessage;
+import com.example.netty.message.GroupJoinResponseMessage;
 import com.example.netty.server.session.Group;
 import com.example.netty.server.session.GroupSessionFactory;
 import io.netty.channel.ChannelHandler;
@@ -19,9 +19,9 @@ public class GroupJoinRequestMessageHandler extends SimpleChannelInboundHandler<
     protected void channelRead0(ChannelHandlerContext ctx, GroupJoinRequestMessage msg) throws Exception {
         Group group = GroupSessionFactory.getGroupSession().joinMember(msg.getGroupName(), msg.getUsername());
         if (group != null){
-            ctx.writeAndFlush(new GroupChatResponseMessage(true, msg.getUsername() + "加入群聊成功"));
+            ctx.writeAndFlush(new GroupJoinResponseMessage(true, msg.getUsername() + "加入群聊成功"));
         } else {
-            ctx.writeAndFlush(new GroupChatResponseMessage(false, msg.getUsername() + "加入群聊失败"));
+            ctx.writeAndFlush(new GroupJoinResponseMessage(false, msg.getUsername() + "加入群聊失败"));
         }
     }
 }

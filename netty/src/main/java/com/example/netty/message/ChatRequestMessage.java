@@ -1,6 +1,8 @@
 package com.example.netty.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -10,19 +12,12 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatRequestMessage extends Message{
-    private String content;
-    private String to;
     private String from;
-
-    public ChatRequestMessage() {
-    }
-
-    public ChatRequestMessage(String from, String to, String content) {
-        this.content = content;
-        this.to = to;
-        this.from = from;
-    }
+    private String to;
+    private String content;
 
     @Override
     public int getMessageType() {

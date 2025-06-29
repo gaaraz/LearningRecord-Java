@@ -1,6 +1,8 @@
 package com.example.netty.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -10,16 +12,14 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroupChatRequestMessage extends Message{
-    private String content;
     private String groupName;
     private String from;
+    private String content;
 
-    public GroupChatRequestMessage(String groupName, String from, String content) {
-        this.content = content;
-        this.groupName = groupName;
-        this.from = from;
-    }
+
 
     @Override
     public int getMessageType() {
