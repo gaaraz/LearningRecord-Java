@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: Netty-Gateway
+  cloud:
+    gateway:
+      httpclient:
+        pool:
+          max-idle-time: PT15S
+    nacos:
+      discovery:
+        server-addr: localhost:8848
