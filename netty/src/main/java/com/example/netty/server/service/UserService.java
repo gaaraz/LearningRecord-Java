@@ -14,4 +14,7 @@ public interface UserService {
      * @return
      */
     boolean login(String username, String password);
+
+    String sayHello(String name);
 }
+//

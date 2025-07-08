@@ -27,4 +27,9 @@ public class UserServiceMemoryImpl implements UserService{
         }
         return pwd.equals(password);
     }
+
+    @Override
+    public String sayHello(String name) {
+        return "你好," + name;
+    }
 }
