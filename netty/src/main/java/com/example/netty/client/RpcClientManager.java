@@ -55,10 +55,13 @@ public class RpcClientManager {
             DefaultPromise<Object> promise = new DefaultPromise<>(getChannel().eventLoop());
             RpcResponseMessageHandler.PROMISE.put(sequenceId, promise);
 
+            // 4. 等待 promise 结果
             promise.await();
             if (promise.isSuccess()) {
+                // 调用正常
                 return promise.getNow();
             } else {
+                // 调用失败
                 throw new RuntimeException(promise.cause());
             }
         });
@@ -68,6 +71,7 @@ public class RpcClientManager {
     private static Channel channel = null;
     private static final Object LOCK = new Object();
 
+    // 获取唯一的 channel 对象
     public static Channel getChannel(){
         if (channel != null){
             return channel;
@@ -82,6 +86,7 @@ public class RpcClientManager {
         }
     }
 
+    // 初始化 channel 方法
     private static void initChannel(){
         NioEventLoopGroup group = new NioEventLoopGroup();
         LoggingHandler LOGGING_HANDLER = new LoggingHandler(LogLevel.DEBUG);
