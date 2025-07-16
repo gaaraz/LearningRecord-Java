@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>基本列表</title>
+        <script src="../js/vue.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <!--  
+            v-for指令:
+                1. 用于展示列表数据
+                2. 语法:v-for="(item, index) in xxx" :key="yyy"
+                3. 可遍历:数组、对象、字符串(用的很少)、指定次数(用的很少)
+        -->
+        <div id="root">
+            <!-- 遍历数组 -->
+            <h2>人员遍历(遍历数组)</h2>
+            <ul>
+                <li v-for="(p,index) in persons" :key="p.id">
+                    {{p.name}}-{{p.age}}
+                </li>
+            </ul>
+
+            <!-- 遍历对象 -->
+             <h2>汽车信息(遍历对象)</h2>
+            <ul>
+                <li v-for="(value,key) in car" :key="key">
+                    {{key}}:{{value}}
+                </li>
+            </ul>
+
+            <!-- 遍历字符串 -->
+            <h2>字符串遍历(用得少)</h2>
+            <ul>
+                <li v-for="(c,index) in str" :key="index">
+                    {{c}}-{{index}}
+                </li>
+            </ul>
+
+            <!-- 遍历指定次数 -->
+            <h2>遍历指定次数(用得少)</h2>
+            <ul>
+                <li v-for="(n,index) in 5" :key="index">
+                    {{index}}-{{n}}
+                </li>
+            </ul>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        var vm = new Vue({
+            el: '#root',
+            data: {
+                persons: [
+                    { id: 1, name: "张三", age: 18 },
+                    { id: 2, name: "李四", age: 20 },
+                    { id: 3, name: "王五", age: 22 }
+                ],
+                car:{
+                    name: '马自达',
+                    price: '20',
+                    color: '黑色'
+                },
+                str: 'hello'
+            }
+        });
+    </script>
+</html>

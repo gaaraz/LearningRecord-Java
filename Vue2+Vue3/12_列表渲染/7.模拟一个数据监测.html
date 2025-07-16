@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>模拟一个数据监测</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            let data = {
+                name: '马冬梅',
+                address: '北京'
+            }
+
+            //创建一个监视的实例对象,用于监视data中属性的变化
+            const obs = new Observer(data);
+            console.log(obs);
+
+            // 准备一个vm实例对象
+            let vm = {};
+            vm._data = data = obs;
+            
+            function Observer(obj) {
+                // 汇总对象中所有的属性形成一个数组
+                const keys = Object.keys(obj);
+                // 遍历
+                keys.forEach(key => {
+                    Object.defineProperty(this, key, {
+                        get() {
+                            return obj[key];
+                        },
+                        set(newValue) {
+                            console.log(`设置属性${key}的新值: ${newValue}`);
+                            obj[key] = newValue;
+                        }
+                    });
+                });
+            }
+        </script>
+    </body>
+</html>
