@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>事件的基本使用</title>
+        <script src="../js/vue.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="app">
+            <h1>欢迎,{{name}}</h1>
+            <button @click="showInfo1">点击提示信息1（不传参）</button>
+            <button @click="showInfo2($event,66)">点击提示信息2（传参）</button>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        new Vue({
+            el: "#app",
+            data: {
+                name: "小明"
+            },
+            methods: {
+                showInfo1() {
+                    alert("你好,showInfo1方法被调用了");
+                },
+                showInfo2(event, num) {
+                    console.log(event, num);
+                    alert("你好,showInfo2方法被调用了");
+                }
+            }
+        });
+    </script>
+</html>
