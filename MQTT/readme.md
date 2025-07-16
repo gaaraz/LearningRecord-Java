@@ -7,7 +7,7 @@
 
 ## 2.1 常见报文类型
 
-![image.png](/imgResource/image.png)
+![image.png](imgResource/image.png)
 
 固定报头固定存在于所有控制报文中，而可变报文和有效载荷是否存在以及它们的内容则取决于具体的报文类型。例如用于维持连接的 PINGREQ 报文就只有一个固定报头，用于传递应用消息的 PUBLISH 报文则完整地包含了这三个部分。
 
@@ -126,7 +126,7 @@
 
 ## 2.3 报文验证
 
-![image1.png](/imgResource/image1.png)
+![image1.png](imgResource/image1.png)
 
 分析：
 
