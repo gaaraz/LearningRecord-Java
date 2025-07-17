@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue监测数据改变的原理_数组</title>
+        <script src="../js/vue.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <!-- 
+            Vue内数组调用的push、pop、shift、unshift、splice、sort、reverse方法,
+            已经不是数组原型对象上的方法了，而是通过Vue重写包装后的方法,
+            因此才能触发页面的更新
+        -->
+        <div id="root">
+            <h1>学校信息</h1>
+            <h2>名称：{{school.name}}</h2>
+            <h2>地址：{{school.address}}</h2>
+            <h2>校长：{{school.leader}}</h2>
+            <hr/>
+            <h1>学生信息</h1>
+            <button @click="addSex">添加一个性别属性,默认值是男</button>
+            <h2>姓名：{{student.name}}</h2>
+            <h2 v-if="student.sex">性别:{{student.sex}}</h2>
+            <h2>年龄：真实{{student.age.rAge}},对外{{student.age.sAge}}</h2>
+            <h2>爱好列表</h2>
+            <ul>
+                <li v-for="(h, index) in student.hobby" :key="index">
+                    {{h}}
+                </li>
+            </ul>
+            <h2>好友列表</h2>
+            <ul>
+                <li v-for="(f, index) in student.friends" :key="index">
+                    {{f.name}}-{{f.age}}
+                </li>
+            </ul>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                school: {
+                    name: '北京大学',
+                    address: '北京市海淀区颐和园路5号',
+                    leader: '马冬梅'
+                },
+                student: {
+                    name: 'tom',
+                    age: {
+                        rAge:40,
+                        sAge:29
+                    },
+                    hobby:['抽烟', '喝酒', '烫头'],
+                    friends: [
+                        {name:'jerry', age: 35},
+                        {name:'tony', age: 36}
+                    ]
+                }
+            },
+            methods: {
+                addSex(){
+                    this.$set(this.student, 'sex', '男');
+                }
+            }
+        });
+    </script>
+</html>
