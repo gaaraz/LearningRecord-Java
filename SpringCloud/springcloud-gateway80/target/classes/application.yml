@@ -1,0 +1,33 @@
+server:
+  port: 80
+spring:
+  application:
+    name: springcloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: payment_route
+        uri: lb://springcloud-payment-service
+        predicates:
+        - Path=/payment/get/**
+      - id: payment_route2
+        uri: lb://springcloud-payment-service
+        predicates:
+        - Path=/payment/get/timeout
+eureka:
+  instance:
+    hostname: springcloud-gateway-service
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://localhost:7001/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+

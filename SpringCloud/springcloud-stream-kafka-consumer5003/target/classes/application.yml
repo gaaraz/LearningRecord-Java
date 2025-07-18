@@ -1,0 +1,23 @@
+server:
+  port: 5003
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+spring:
+  application:
+    name: springcloud-stream-kafka-consumer
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers:
+          - localhost:9092
+      bindings:
+        kafka-in-0:
+          destination: TEST_TOPIC
+          group: TEST_GROUP
+          contentType: text/plain

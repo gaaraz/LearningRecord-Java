@@ -1,0 +1,20 @@
+server:
+  port: 80
+eureka:
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+spring:
+  application:
+    name: springcloud-feign-order-service
+#feign:
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 5000
+#        readTimeout: 5000
+logging:
+  level:
+    com.example.springcloud.service.PaymentService: debug

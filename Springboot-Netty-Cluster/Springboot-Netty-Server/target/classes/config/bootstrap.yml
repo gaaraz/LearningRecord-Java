@@ -1,0 +1,17 @@
+server:
+  port: 8081
+  netty:
+    port: 8888
+    application:
+      name: Chat-Netty-Server
+
+spring:
+  application:
+    name: Springboot-Netty-Server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+
+

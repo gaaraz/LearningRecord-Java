@@ -1,0 +1,32 @@
+server:
+  port: 6001
+
+spring:
+  application:
+    name: springcloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/gaaraz/wms.git
+          search-paths:
+            - wms
+          username: gaaraz
+          password: xixi95029602
+      label: master
+    bus:
+      refresh:
+        enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka

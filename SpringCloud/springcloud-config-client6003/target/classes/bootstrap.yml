@@ -1,0 +1,26 @@
+server:
+  port: 6003
+
+spring:
+  application:
+    name: springcloud-config-client
+  cloud:
+    config:
+      label: master
+      name: config
+      profile: test
+      uri: http://localhost:6001
+  kafka:
+    bootstrap-servers: localhost:9092
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
