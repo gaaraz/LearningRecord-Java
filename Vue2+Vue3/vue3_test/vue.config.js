@@ -12,4 +12,14 @@ module.exports = defineConfig({
             return definitions;
         });
     },
+    // devServer: {
+    //     proxy: {
+    //         "/api": {
+    //             target: "http://api.uomg.com/api/rand.qinghua?format=json",
+    //             pathRewrite: { "^/api": "" },
+    //             // ws: true, //用于支持websocket
+    //             // changeOrigin: true //用于控制请求头中的host值
+    //         },
+    //     },
+    // },
 });
